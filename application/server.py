@@ -1,10 +1,10 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 
-from project.exceptions import BaseServiceError
-from project.setup.api import api
-from project.setup.db import db
-from project.views import auth_ns, genres_ns, user_ns
+from application.exceptions import BaseServiceError
+from application.setup.api import api
+from application.setup.db import db
+from application.views import auth_ns, genres_ns, user_ns
 
 
 def base_service_error_handler(exception: BaseServiceError):

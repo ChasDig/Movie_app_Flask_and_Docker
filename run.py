@@ -1,6 +1,6 @@
-from project.config import config
-from project.models import Genre
-from project.server import create_app, db
+from application.config import config
+from application.dao.models.models import Genre
+from application.server import create_app, db
 
 app = create_app(config)
 

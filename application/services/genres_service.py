@@ -1,8 +1,8 @@
 from typing import Optional
 
-from project.dao.base import BaseDAO
-from project.exceptions import ItemNotFound
-from project.models import Genre
+from application.dao.base import BaseDAO
+from application.exceptions import ItemNotFound
+from application.dao.models.models import Genre
 
 
 class GenresService:
