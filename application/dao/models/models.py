@@ -1,5 +1,6 @@
+import json
+
 from sqlalchemy import Column, String, Integer, Float, ForeignKey
-from marshmallow import Schema, fields
 from sqlalchemy.orm import relationship
 
 from application.setup.db import models
@@ -15,7 +16,7 @@ class Genre(models.Base):
 class Director(models.Base):
     __tablename__ = "director"
 
-    name = Column(String(100), uniqule=True, nullable=False)
+    name = Column(String(100), unique=True, nullable=False)
 
 
 #
@@ -28,10 +29,10 @@ class Movie(models.Base):
     year = Column(Integer)
     rating = Column(Float)
 
-    genre_id = Column(Integer, ForeignKey("genre.id"), nullable=False)
+    genre_id = Column(Integer, ForeignKey(f"{Genre.__tablename__}.id"), nullable=False)
     genre = relationship("Genre")
 
-    director_id = Column(Integer, ForeignKey="director.id", nullable=False)
+    director_id = Column(Integer, ForeignKey(f"{Director.__tablename__}.id"), nullable=False)
     director = relationship("Director")
 
 
@@ -43,4 +44,11 @@ class User(models.Base):
     password = Column(String(100), nullable=False)
     name = Column(String(100))
     surname = Column(String(100))
-    favorite_genre = Column(String())
+    favorite_genre = Column(Integer, ForeignKey(f"{Genre.__tablename__}.id"))
+
+
+class FavoritesMovies(models.Base):
+    __tablename__ = "favorites_movies"
+
+    user_id = Column(Integer, ForeignKey(f"{User.__tablename__}.id)"))
+    movie_id = Column(Integer, ForeignKey(f"{Movie.__tablename__}.id"))
