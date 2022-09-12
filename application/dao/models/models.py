@@ -3,7 +3,7 @@ import json
 from sqlalchemy import Column, String, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship
 
-from application.setup.db import models
+from application.setup.db import models, db
 
 
 class Genre(models.Base):
@@ -17,6 +17,14 @@ class Director(models.Base):
     __tablename__ = "director"
 
     name = Column(String(100), unique=True, nullable=False)
+
+
+#
+favorites_movies = db.Table(
+    "favorites",
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column("movies_id", db.Integer, db.ForeignKey('movie.id'), primary_key=True)
+)
 
 
 #
@@ -45,10 +53,12 @@ class User(models.Base):
     name = Column(String(100))
     surname = Column(String(100))
     favorite_genre = Column(Integer, ForeignKey(f"{Genre.__tablename__}.id"))
+    favorites = db.relationship(
+        'Movie',
+        secondary=favorites_movies,
+        lazy="subquery",
+        backref=db.backref('movie', lazy=True),
+    )
 
 
-class FavoritesMovies(models.Base):
-    __tablename__ = "favorites_movies"
 
-    user_id = Column(Integer, ForeignKey(f"{User.__tablename__}.id)"))
-    movie_id = Column(Integer, ForeignKey(f"{Movie.__tablename__}.id"))

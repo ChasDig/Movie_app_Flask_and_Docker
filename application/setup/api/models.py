@@ -26,6 +26,11 @@ movie: Model = api.model('Фильм', {
     'director_id': fields.Integer(required=True, example=1),
 })
 
+favorites: Model = api.model("Любимые фильмы", {
+    'user_id': fields.Integer(required=True, example=1),
+    'movie_id': fields.Integer(required=True, example=1)
+})
+
 #
 user: Model = api.model("Пользователь", {
     'id': fields.Integer(required=True, example=1),
@@ -34,12 +39,7 @@ user: Model = api.model("Пользователь", {
     'name': fields.String(required=True, max_length=100, example="Текст"),
     'surname': fields.String(required=True, max_length=100, example="Текст"),
     'favorite_genre': fields.Nested(genre),
+    "favorites": fields.Nested(favorites),
 })
 
-#
-favorites_movies: Model = api.model("Любимые фильмы", {
-    'id': fields.Integer(required=True, example=1),
-    'user_id': fields.Integer(required=True, example=1),
-    'movie_id': fields.Integer(required=True, example=1)
-})
 

@@ -9,8 +9,7 @@ from application.dao.base import BaseDAO, T
 from application.dao.models.models import Genre
 from application.dao.models.models import Director
 from application.dao.models.models import Movie
-from application.dao.models.models import User
-from application.dao.models.models import FavoritesMovies
+from application.dao.models.models import User, favorites_movies
 
 
 class GenresDAO(BaseDAO[Genre]):
@@ -69,14 +68,15 @@ class UsersDAO(BaseDAO[User]):
 
         return user
 
+    #
+    def add_favorite_movies(self, user_id: str, movie_id: str):
+        favorites_movies_new = favorites_movies.insert().values(user_id=user_id, movies_id=movie_id)
+        self._db_session.execute(favorites_movies_new)
+        self._db_session.commit()
+        return 'New favorite movie added!'
 
-class FavoritesMoviesDAO(BaseDAO[FavoritesMovies]):
-    __model__ = FavoritesMovies
-
-    def get_by_email(self, email: str):
-        stmt: BaseQuery = self._db_session.query(User).filter(User.email == email).first()
-        return json.dumps(stmt)
-
-    def add_movie_favorite(self, movie_id, email):
-        data = self.get_by_email(email=email)
-        return data
+    #
+    def delete_favorite_movies(self, movie_id: str):
+        self._db_session.query(favorites_movies).filter(favorites_movies.c.movies_id == movie_id).delete()
+        self._db_session.commit()
+        return 'Favorite movie delete!'

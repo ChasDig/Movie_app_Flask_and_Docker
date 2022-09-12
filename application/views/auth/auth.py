@@ -26,7 +26,7 @@ class AuthViewsLogin(Resource):
 
     def post(self):
         data_json = request.json
-        print(data_json)
+        print(data_json['password'])
         if not data_json.get('email') or not data_json.get('password'):
             print("User is not found!")
             abort(401)

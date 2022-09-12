@@ -38,3 +38,11 @@ class UsersService:
         email = get_data_by_token(token).get("email")
         new_password = generate_password_hash(password=data_json["new_password"])
         return self.dao.update_password_user(new_password=new_password, email=email)
+
+    #
+    def add_favorite_movies(self, user_id, movie_id):
+        return self.dao.add_favorite_movies(user_id=user_id, movie_id=movie_id)
+
+    #
+    def delete_favorite_movies(self, movie_id):
+        return self.dao.delete_favorite_movies(movie_id=movie_id)
