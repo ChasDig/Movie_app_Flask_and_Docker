@@ -1,4 +1,3 @@
-import json
 from typing import Optional, List
 
 from flask_sqlalchemy import BaseQuery
@@ -53,27 +52,28 @@ class UsersDAO(BaseDAO[User]):
         new_user = User(email=email, password=password)
         self._db_session.add(new_user)
         self._db_session.commit()
-        return 'User create!'
+        return new_user
 
     def update_data_user(self, data_json, email):
-        self._db_session.query(self.__model__).filter(self.__model__.email == email).update(data_json)
+        user_update = self._db_session.query(self.__model__).filter(self.__model__.email == email).update(data_json)
         self._db_session.commit()
-        return "User update!"
+        return user_update
 
     def update_password_user(self, new_password, email):
-        user = self.get_by_email(email)
-        user.password = new_password
-        self._db_session.add(user)
+        # user_update = self._db_session.query(self.__model__).filter(self.__model__.email == email).update(password=new_password)
+        user_update = self.get_by_email(email)
+        user_update.password = new_password
+        self._db_session.add(user_update)
         self._db_session.commit()
 
-        return user
+        return user_update
 
     #
     def add_favorite_movies(self, user_id: str, movie_id: str):
         favorites_movies_new = favorites_movies.insert().values(user_id=user_id, movies_id=movie_id)
         self._db_session.execute(favorites_movies_new)
         self._db_session.commit()
-        return 'New favorite movie added!'
+        return favorites_movies_new
 
     #
     def delete_favorite_movies(self, movie_id: str):
