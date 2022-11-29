@@ -4,7 +4,7 @@ import datetime
 import calendar
 import jwt
 
-from flask import current_app, abort
+from flask import current_app
 
 
 def generate_password_digest(password: str) -> bytes:

@@ -1,6 +1,4 @@
-import json
-
-from sqlalchemy import Column, String, Integer, Float, ForeignKey
+from sqlalchemy import Column, String, Integer, Float, ForeignKey, Text
 from sqlalchemy.orm import relationship
 
 from application.setup.db import models, db
@@ -14,7 +12,7 @@ class Genre(models.Base):
 
 #
 class Director(models.Base):
-    __tablename__ = "director"
+    __tablename__ = 'director'
 
     name = Column(String(100), unique=True, nullable=False)
 
@@ -32,7 +30,7 @@ class Movie(models.Base):
     __tablename__ = "movie"
 
     title = Column(String(100))
-    description = Column(String(255))
+    description = Column(Text)
     trailer = Column(String(100))
     year = Column(Integer)
     rating = Column(Float)

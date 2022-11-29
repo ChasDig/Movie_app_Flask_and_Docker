@@ -37,7 +37,6 @@ class AuthViewsLogin(Resource):
     def put(self):
 
         json_data = request.json
-        print(json_data.get("refresh_token"))
 
         if not json_data.get("refresh_token"):
             print("Refresh token not found!")

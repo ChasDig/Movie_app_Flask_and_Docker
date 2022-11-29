@@ -1,5 +1,6 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify
 from flask_cors import CORS
+from flask_migrate import Migrate
 
 from application.exceptions import BaseServiceError
 from application.setup.api import api
@@ -15,9 +16,7 @@ def create_app(config_obj):
     app = Flask(__name__)
     app.config.from_object(config_obj)
 
-    @app.route('/')
-    def index():
-        return render_template('index.html')
+    migrate = Migrate(app, db)
 
     CORS(app=app)
     db.init_app(app)

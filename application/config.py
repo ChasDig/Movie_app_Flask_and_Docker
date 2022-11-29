@@ -28,22 +28,23 @@ class BaseConfig:
 
 class TestingConfig(BaseConfig):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+    SQLALCHEMY_DATABASE_URI = "sqlite:///" + BASE_DIR.joinpath('application.db').as_posix()
 
 
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
     SQLALCHEMY_ECHO = True
-    SQLALCHEMY_DATABASE_URI = "sqlite:///" + BASE_DIR.joinpath('application.db').as_posix()
+    # SQLALCHEMY_DATABASE_URI = "sqlite:///" + BASE_DIR.joinpath('application.db').as_posix()
+    SQLALCHEMY_DATABASE_URI = "postgresql://flask_app_user:flask_app_password@pg/flask_app_db"
 
 
 class ProductionConfig(BaseConfig):
     DEBUG = False
-    # TODO: дополнить конфиг
+    SQLALCHEMY_DATABASE_URI = "sqlite:///" + BASE_DIR.joinpath('application.db').as_posix()
 
 
 class ConfigFactory:
-    flask_env = os.getenv('FLASK_ENV')
+    flask_env = 'development'
 
     @classmethod
     def get_config(cls) -> Type[BaseConfig]:
