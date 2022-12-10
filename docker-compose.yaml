@@ -5,6 +5,7 @@ services:
   api:
     build:
       context: .
+    image: chasdig/movie_app_flask_and_docker
     ports:
       - 5000:5000
     depends_on:
@@ -15,6 +16,7 @@ services:
   migrations:
     build:
       context: .
+    image: chasdig/movie_app_flask_and_docker
     depends_on:
       pg:
         condition: service_healthy
